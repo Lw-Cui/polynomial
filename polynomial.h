@@ -1,15 +1,16 @@
 #ifndef _POLYNOMIAL_H_
 #define _POLYNOMIAL_H_
-#define INIT 100
 
 class unit;
 
 class polynomial {
 public:
 	polynomial();
+
 	void push(int base, int exp);
-	void add(const polynomial &);
 	void print() const;
+
+	polynomial add(const polynomial &) const;
 private:
 	unit *beg;
 };
