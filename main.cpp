@@ -3,8 +3,10 @@
 using namespace std;
 
 int main(int args, char **agrv) { 
+	polynomial p;
 
-	nomomial term(10, 5);
-	term.print();
+	for (int i = 0; i < 5; i++)
+		p.push(i, i + 1);
+	p.print();
 	return 0;
 }

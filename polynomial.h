@@ -1,20 +1,27 @@
 #ifndef _POLYNOMIAL_H_
 #define _POLYNOMIAL_H_
-#include <vector>
+#define INIT 100
 
-class nomomial {
-public:
-	nomomial(int base, int exp);
-	void print();
-private:
-	int exp;
-	int base;
-};
+class unit;
 
 class polynomial {
 public:
-	void add();
+	polynomial();
+	void push(int base, int exp);
+	void add(const polynomial &);
+	void print() const;
 private:
+	unit *beg;
+};
+
+class unit {
+friend class polynomial;
+private:
+	unit(int base, int exp, unit *p = NULL);
+
+	unit *next;
+	int exp;
+	int coe;
 };
 
 #endif

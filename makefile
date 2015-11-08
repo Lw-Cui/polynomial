@@ -1,19 +1,20 @@
 SRC = polynomial.cpp main.cpp
-OBJ = ${patsubst %.cpp, %.o, $(SRC)}
 HEAD = polynomial.h
+OBJ = ${patsubst %.cpp, %.o, $(SRC)}
+TARGET = polynomial.out
 
 FLAG = -g -c
 CC = g++
 
-all: main.out
+all: $(TARGET)
 
-main.out: $(OBJ)
+$(TARGET): $(OBJ)
 	$(CC) $^ -o $@
 
 $(OBJ): %.o: %.cpp $(HEAD)
 	$(CC) $< -o $@ $(FLAG)
 
 clean:
-	rm $(OBJ) main.out
+	rm $(OBJ) $(TARGET)
 
 .PHONY: all clean
