@@ -1,28 +1,80 @@
 #include <iostream>
+#include <cassert>
 #include "polynomial.h"
 #define INF (1 << 20)
+#define MAX 30
 
-unit::unit(int coe, int exp, unit *p)
-	:coe(coe), exp(exp), next(p) {
+unit::unit(int coe, int exp, unit *n, unit *l)
+	:coe(coe), exp(exp), next(n), last(l) {
 
 }
 
 polynomial::polynomial() {
-	beg = new unit(0, INF, new unit(0, -INF));
+	spare = newspace();
+	beg = getunit(0, -INF);
 }
 
-void polynomial::push(int coe, int exp) {
-	if (coe == 0)
-		return;
-	
+//TODO
+polynomial::~polynomial() {
+	destory(beg);
+	destory(spare);
+}
+
+void polynomial::destory(unit *start) {
+	if (start && start->next)
+		for (unit *p = start->next; p != NULL; p = p->next)
+			delete p->last;
+	else if (start)
+		delete start;
+}
+
+unit *polynomial::insert(unit *obj, unit *dist) {
+	if (dist->last) {
+		dist->last->next = obj;
+		obj->last = dist->last;
+	}
+
+	obj->next = dist;
+	dist->last = obj;
+
+	return obj;
+}
+
+unit *polynomial::newspace() {
+	unit *p = new unit[MAX];
+	for (int i = 0; i < MAX - 1; i++) {
+		p[i].next = &p[i + 1];
+		p[i + 1].last = &p[i];
+	}
+	return p;
+}
+
+unit *polynomial::getunit(int coe, int exp) {
+	if (spare == NULL)
+		spare = newspace();
+
+	spare->coe = coe;
+	spare->exp = exp;
+	spare->next = spare->last = NULL;
+
+	unit *p = spare;
+	spare = spare->next;
+	return p;
+}
+
+void polynomial::insert(int coe, int exp) {
 	unit *p = beg;
-	while (p->next->exp > exp)
+	while (p->exp > exp)
 		p = p->next;
 
-	if (p->next->exp == exp)
-		p->next->coe += coe;
-	else
-		p->next = new unit(coe, exp, p->next);
+	if (p->exp == exp) {
+		p->coe += coe;
+	} else {
+		unit *obj = getunit(coe, exp);
+		insert(obj, p);
+
+		if (p == beg) beg = obj;
+	}
 }
 
 polynomial polynomial::add(const polynomial &p) const {
@@ -31,17 +83,17 @@ polynomial polynomial::add(const polynomial &p) const {
 
 	while (p1 != NULL && p2 != NULL)
 		if (p1->exp > p2->exp) {
-			ans.push(p1->coe, p1->exp);
+			ans.insert(p1->coe, p1->exp);
 			p1 = p1->next;
 		} else {
-			ans.push(p2->coe, p2->exp);
+			ans.insert(p2->coe, p2->exp);
 			p2 = p2->next;
 		}
 
 	for (; p1 != NULL; p1 = p1->next)
-		ans.push(p1->coe, p1->exp);
+		ans.insert(p1->coe, p1->exp);
 	for (; p2 != NULL; p2 = p2->next)
-		ans.push(p2->coe, p2->exp);
+		ans.insert(p2->coe, p2->exp);
 
 	return ans;
 }
@@ -49,7 +101,7 @@ polynomial polynomial::add(const polynomial &p) const {
 void polynomial::print() const {
 	for (unit *p = beg; p != NULL; p = p->next)
 		if (p->coe) {
-			if (p != beg->next) std::cout << " + ";
+			if (p != beg) std::cout << " + ";
 			 std::cout << p->coe << "x^" << p->exp;
 		}
 	std::cout << std::endl;
