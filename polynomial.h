@@ -14,11 +14,12 @@ public:
 	polynomial add(const polynomial &) const;
 private:
 	unit *insert(unit *, unit *);
+	void append(int, int);
 	unit *getunit(int, int);
 	unit *newspace();
 	void destory(unit *);
 
-	unit *beg;
+	unit *beg, *end;
 	unit *spare;
 };
 

@@ -11,7 +11,7 @@ unit::unit(int coe, int exp, unit *n, unit *l)
 
 polynomial::polynomial() {
 	spare = newspace();
-	beg = getunit(0, -INF);
+	end = beg = getunit(0, -INF);
 }
 
 //TODO
@@ -62,6 +62,16 @@ unit *polynomial::getunit(int coe, int exp) {
 	return p;
 }
 
+void polynomial::append(int coe, int exp) {
+	unit *obj = getunit(coe, exp);
+	if (end->last && end->last->exp == exp)
+		end->last->coe += coe;
+	else
+		insert(obj, end);
+
+	if (end == beg) beg = obj;
+}
+
 void polynomial::insert(int coe, int exp) {
 	unit *p = beg;
 	while (p->exp > exp)
@@ -72,7 +82,6 @@ void polynomial::insert(int coe, int exp) {
 	} else {
 		unit *obj = getunit(coe, exp);
 		insert(obj, p);
-
 		if (p == beg) beg = obj;
 	}
 }
@@ -83,17 +92,17 @@ polynomial polynomial::add(const polynomial &p) const {
 
 	while (p1 != NULL && p2 != NULL)
 		if (p1->exp > p2->exp) {
-			ans.insert(p1->coe, p1->exp);
+			ans.append(p1->coe, p1->exp);
 			p1 = p1->next;
 		} else {
-			ans.insert(p2->coe, p2->exp);
+			ans.append(p2->coe, p2->exp);
 			p2 = p2->next;
 		}
 
 	for (; p1 != NULL; p1 = p1->next)
-		ans.insert(p1->coe, p1->exp);
+		ans.append(p1->coe, p1->exp);
 	for (; p2 != NULL; p2 = p2->next)
-		ans.insert(p2->coe, p2->exp);
+		ans.append(p2->coe, p2->exp);
 
 	return ans;
 }
