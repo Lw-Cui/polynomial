@@ -1,5 +1,6 @@
 #ifndef _POLYNOMIAL_H_
 #define _POLYNOMIAL_H_
+//TO DO: COPY CONSTRUCTOR
 
 class unit;
 
@@ -12,6 +13,8 @@ public:
 	void print() const;
 
 	polynomial add(const polynomial &) const;
+	polynomial minus(const polynomial &) const;
+	polynomial negative() const;
 private:
 	unit *insert(unit *, unit *);
 	void append(int, int);

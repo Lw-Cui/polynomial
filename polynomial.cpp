@@ -14,7 +14,6 @@ polynomial::polynomial() {
 	end = beg = getunit(0, -INF);
 }
 
-//TODO
 polynomial::~polynomial() {
 	destory(beg);
 	destory(spare);
@@ -84,6 +83,17 @@ void polynomial::insert(int coe, int exp) {
 		insert(obj, p);
 		if (p == beg) beg = obj;
 	}
+}
+
+polynomial polynomial::minus(const polynomial &p) const {
+	return add(p.negative());
+}
+
+polynomial polynomial::negative() const {
+	polynomial ans;
+	for (unit *p = beg; p != NULL; p = p->next)
+		ans.append(-p->coe, p->exp);
+	return ans;
 }
 
 polynomial polynomial::add(const polynomial &p) const {

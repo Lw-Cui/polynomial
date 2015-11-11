@@ -9,11 +9,14 @@ int main(int args, char **agrv) {
 		p1.insert(i, i + 1);
 	p1.print();
 
+	polynomial p4 = p1.negative();
+	p4.print();
+
 	for (int i = 7; i > 4; i--)
 		p2.insert(i, i - 1);
 	p2.print();
 
-	polynomial p3 = p1.add(p2);
+	polynomial p3 = p4.add(p2);
 	p3.print();
 	
 	return 0;
