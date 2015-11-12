@@ -7,8 +7,6 @@ int main(int args, char **agrv) {
 
 	for (int i = 0; i < 5; i++)
 		p1.insert(i, i + 1);
-	p1.print();
-
 	polynomial p4 = p1.negative();
 	p4.print();
 
@@ -16,7 +14,8 @@ int main(int args, char **agrv) {
 		p2.insert(i, i - 1);
 	p2.print();
 
-	polynomial p3 = p4.add(p2);
+	//polynomial p3 = p4.add(p2);
+	polynomial p3 = p4.multiply(p2);
 	p3.print();
 	
 	return 0;

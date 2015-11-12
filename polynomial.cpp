@@ -117,6 +117,17 @@ polynomial polynomial::add(const polynomial &p) const {
 	return ans;
 }
 
+polynomial polynomial::multiply(const polynomial &p) const {
+	polynomial ans;
+
+	for (unit *p1 = beg; p1 != NULL; p1 = p1->next)
+		for (unit *p2 = p.beg; p2 != NULL; p2 = p2->next)
+			if (p1->exp != -INF && p2->exp != -INF)
+				ans.insert(p1->coe * p2->coe, p1->exp + p2->exp);
+
+	return ans;
+}
+
 void polynomial::print() const {
 	for (unit *p = beg; p != NULL; p = p->next)
 		if (p->coe) {

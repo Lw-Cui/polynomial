@@ -14,6 +14,7 @@ public:
 
 	polynomial add(const polynomial &) const;
 	polynomial minus(const polynomial &) const;
+	polynomial multiply(const polynomial &)const;
 	polynomial negative() const;
 private:
 	unit *insert(unit *, unit *);
