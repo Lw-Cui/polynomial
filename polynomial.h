@@ -9,6 +9,9 @@ public:
 	polynomial();
 	~polynomial();
 
+	polynomial(const polynomial &);
+	polynomial &operator=(const polynomial &);
+
 	void insert(int, int);
 	void print() const;
 

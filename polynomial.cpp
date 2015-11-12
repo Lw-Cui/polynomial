@@ -19,6 +19,28 @@ polynomial::~polynomial() {
 	destory(spare);
 }
 
+polynomial::polynomial(const polynomial &p) {
+	spare = newspace();
+	end = beg = getunit(0, -INF);
+	for (unit *p1 = p.beg; p1 != NULL; p1 = p1->next)
+		if (p1->exp != -INF)
+			append(p1->coe, p1->exp);
+}
+
+polynomial &polynomial::operator=(const polynomial &p) {
+	if (&p == this)
+		return *this;
+
+	destory(beg);
+	destory(spare);
+
+	spare = newspace();
+	end = beg = getunit(0, -INF);
+	for (unit *p1 = p.beg; p1 != NULL; p1 = p1->next)
+		if (p1->exp != -INF)
+			append(p1->coe, p1->exp);
+}
+
 void polynomial::destory(unit *start) {
 	if (start && start->next)
 		for (unit *p = start->next; p != NULL; p = p->next)

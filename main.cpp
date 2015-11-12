@@ -7,16 +7,16 @@ int main(int args, char **agrv) {
 
 	for (int i = 0; i < 5; i++)
 		p1.insert(i, i + 1);
-	polynomial p4 = p1.negative();
-	p4.print();
+	p1 = p1.negative();
+	p1.print();
 
 	for (int i = 7; i > 4; i--)
 		p2.insert(i, i - 1);
 	p2.print();
 
 	//polynomial p3 = p4.add(p2);
-	polynomial p3 = p4.multiply(p2);
-	p3.print();
+	p2 = p2.multiply(p1);
+	p2.print();
 	
 	return 0;
 }
