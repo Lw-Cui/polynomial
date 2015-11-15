@@ -11,6 +11,7 @@ public:
 
 	polynomial(const polynomial &);
 	polynomial &operator=(const polynomial &);
+	bool operator<(const polynomial &);
 
 	void insert(int, int);
 	void print() const;
@@ -18,9 +19,11 @@ public:
 	polynomial add(const polynomial &) const;
 	polynomial minus(const polynomial &) const;
 	polynomial multiply(const polynomial &)const;
+	polynomial divide(const polynomial &)const;
 	polynomial negative() const;
 private:
 	unit *insert(unit *, unit *);
+	void del(unit *);
 	void append(int, int);
 	unit *getunit(int, int);
 	unit *newspace();

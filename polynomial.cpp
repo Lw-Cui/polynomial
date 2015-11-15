@@ -41,6 +41,19 @@ polynomial &polynomial::operator=(const polynomial &p) {
 			append(p1->coe, p1->exp);
 }
 
+bool polynomial::operator<(const polynomial &p) {
+	unit *p1 = beg, *p2 = p.beg;
+
+	while (p1->exp != -INF && p2->exp != -INF
+		&& p1->exp == p2->exp && p1->coe == p1->coe) {
+		p1 = p1->next;
+		p2 = p2->next;
+	}
+
+	return (p1->exp < p2->exp);
+
+}
+
 void polynomial::destory(unit *start) {
 	if (start && start->next)
 		for (unit *p = start->next; p != NULL; p = p->next)
@@ -59,6 +72,15 @@ unit *polynomial::insert(unit *obj, unit *dist) {
 	dist->last = obj;
 
 	return obj;
+}
+
+//TO DO: deal with memory leak
+void polynomial::del(unit *p) {
+	if (beg == p)
+		beg = p->next;
+
+	p->next->last = p->last;
+	p->last->next = p->next;
 }
 
 unit *polynomial::newspace() {
@@ -93,13 +115,20 @@ void polynomial::append(int coe, int exp) {
 	if (end == beg) beg = obj;
 }
 
+
 void polynomial::insert(int coe, int exp) {
+	if (coe == 0)
+		return;
+
 	unit *p = beg;
 	while (p->exp > exp)
 		p = p->next;
 
 	if (p->exp == exp) {
 		p->coe += coe;
+		if (p->coe == 0) {
+			del(p);
+		}
 	} else {
 		unit *obj = getunit(coe, exp);
 		insert(obj, p);
@@ -150,11 +179,17 @@ polynomial polynomial::multiply(const polynomial &p) const {
 	return ans;
 }
 
+polynomial polynomial::divide(const polynomial &p) const {
+	polynomial ans;
+
+	return ans;
+}
+
 void polynomial::print() const {
 	for (unit *p = beg; p != NULL; p = p->next)
 		if (p->coe) {
 			if (p != beg) std::cout << " + ";
-			 std::cout << p->coe << "x^" << p->exp;
-		}
+			std::cout << p->coe << "x^" << p->exp;
+	}
 	std::cout << std::endl;
 }
