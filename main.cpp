@@ -20,23 +20,29 @@ void test1() {
 	p2.print();
 }
 
-int main(int args, char **agrv) { 
-	polynomial p1, p2;
 
+void test3() {
+	polynomial p1, p2;
+	p1.insert(10, 2);
+	p1.insert(1, 1);
+	p2.insert(5, 1);
+	
+	p1.divide(p2).print();
+}
+
+void test4() {
+	polynomial p1, p2;
+	
 	p1.insert(-2, 2);
 	p1.insert(1, 1);
 
 	p2.insert(2, 1);
 	p2.insert(1, 0);
-
-	p1.print();
-	p2.print();
-
-	polynomial p3 = p1.multiply(p2);
-	p3.print();
-
-	printf("p2 < p2? %d\n", p2 < p2);
-	printf("p1 < p2? %d\n", p1 < p2);
 	
+	p1.divide(p2).print();
+}
+
+int main(int args, char **agrv) { 
+	test3();
 	return 0;
 }

@@ -11,7 +11,6 @@ public:
 
 	polynomial(const polynomial &);
 	polynomial &operator=(const polynomial &);
-	bool operator<(const polynomial &);
 
 	void insert(int, int);
 	void print() const;
@@ -28,6 +27,7 @@ private:
 	unit *getunit(int, int);
 	unit *newspace();
 	void destory(unit *);
+	bool islower(const polynomial &) const;
 
 	unit *beg, *end;
 	unit *spare;

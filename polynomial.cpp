@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdio>
 #include <cassert>
 #include "polynomial.h"
 #define INF (1 << 20)
@@ -41,19 +42,6 @@ polynomial &polynomial::operator=(const polynomial &p) {
 			append(p1->coe, p1->exp);
 }
 
-bool polynomial::operator<(const polynomial &p) {
-	unit *p1 = beg, *p2 = p.beg;
-
-	while (p1->exp != -INF && p2->exp != -INF
-		&& p1->exp == p2->exp && p1->coe == p1->coe) {
-		p1 = p1->next;
-		p2 = p2->next;
-	}
-
-	return (p1->exp < p2->exp);
-
-}
-
 void polynomial::destory(unit *start) {
 	if (start && start->next)
 		for (unit *p = start->next; p != NULL; p = p->next)
@@ -76,11 +64,13 @@ unit *polynomial::insert(unit *obj, unit *dist) {
 
 //TO DO: deal with memory leak
 void polynomial::del(unit *p) {
-	if (beg == p)
+	if (beg == p) {
 		beg = p->next;
-
-	p->next->last = p->last;
-	p->last->next = p->next;
+		beg->last = NULL;
+	} else {
+		p->next->last = p->last;
+		p->last->next = p->next;
+	}
 }
 
 unit *polynomial::newspace() {
@@ -106,19 +96,22 @@ unit *polynomial::getunit(int coe, int exp) {
 }
 
 void polynomial::append(int coe, int exp) {
-	unit *obj = getunit(coe, exp);
-	if (end->last && end->last->exp == exp)
-		end->last->coe += coe;
-	else
-		insert(obj, end);
+	if (coe == 0) return;
 
-	if (end == beg) beg = obj;
+	if (end->last && end->last->exp == exp) {
+		end->last->coe += coe;
+		if (end->last->coe == 0) del(end->last);
+
+	} else {
+		unit *obj = getunit(coe, exp);
+		insert(obj, end);
+		if (end == beg) beg = obj;
+	}
 }
 
 
 void polynomial::insert(int coe, int exp) {
-	if (coe == 0)
-		return;
+	if (coe == 0) return;
 
 	unit *p = beg;
 	while (p->exp > exp)
@@ -126,9 +119,8 @@ void polynomial::insert(int coe, int exp) {
 
 	if (p->exp == exp) {
 		p->coe += coe;
-		if (p->coe == 0) {
-			del(p);
-		}
+		if (p->coe == 0) del(p);
+
 	} else {
 		unit *obj = getunit(coe, exp);
 		insert(obj, p);
@@ -179,10 +171,25 @@ polynomial polynomial::multiply(const polynomial &p) const {
 	return ans;
 }
 
-polynomial polynomial::divide(const polynomial &p) const {
-	polynomial ans;
+bool polynomial::islower(const polynomial &p) const { 
+	return beg->exp < p.beg->exp;
+}
 
-	return ans;
+polynomial polynomial::divide(const polynomial &p) const {
+	polynomial result, remainder = *this;
+
+	while (!remainder.islower(p)) {
+		int coe = remainder.beg->coe / p.beg->coe;
+		int exp = remainder.beg->exp - p.beg->exp;
+		if (coe == 0) break;
+
+		polynomial ans;
+		ans.append(coe, exp);
+		result.append(coe, exp);
+
+		remainder = remainder.minus(ans.multiply(p));
+	}
+	return result;
 }
 
 void polynomial::print() const {
@@ -190,6 +197,6 @@ void polynomial::print() const {
 		if (p->coe) {
 			if (p != beg) std::cout << " + ";
 			std::cout << p->coe << "x^" << p->exp;
-	}
+		}
 	std::cout << std::endl;
 }
