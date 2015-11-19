@@ -192,11 +192,10 @@ polynomial polynomial::divide(const polynomial &p) const {
 	return result;
 }
 
-void polynomial::print() const {
-	for (unit *p = beg; p != NULL; p = p->next)
+std::ostream &operator<<(std::ostream &out, const polynomial &px) {
+	for (unit *p = px.beg; p != NULL; p = p->next)
 		if (p->coe) {
-			if (p != beg) std::cout << " + ";
-			std::cout << p->coe << "x^" << p->exp;
+			if (p != px.beg) out << " + ";
+			out << p->coe << "x^" << p->exp;
 		}
-	std::cout << std::endl;
 }
