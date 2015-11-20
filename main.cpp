@@ -18,26 +18,23 @@ void test1() {
 
 void test3() {
 	polynomial p1, p2;
-	p1.add(10, 2);
-	p1.add(1, 1);
-	p2.add(5, 1);
+	p1.add("10x^2").add("1x^1");
+	p2.add("5x^1");
 	
-	cout << p1 / p2;
+	cout << p1 / p2 << endl;
 }
 
 void test4() {
 	polynomial p1, p2;
 	
-	p1.add(-2, 2);
-	p1.add(1, 1);
-
-	p2.add(2, 1);
-	p2.add(1, 0);
-	
+	p1.add("-2x^2").add("1x^1");
+	p2.add("2x^1").add("1x^0");
 	p1 = p1 / p2;
+	cout << p1 << endl;
 }
 
 int main(int args, char **agrv) { 
 	test3();
+	test4();
 	return 0;
 }

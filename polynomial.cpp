@@ -1,6 +1,8 @@
 #include <iostream>
+#include <cstdlib>
 #include <cstdio>
 #include <cassert>
+#include <cstring>
 #include "polynomial.h"
 #define INF (1 << 20)
 #define MAX 30
@@ -113,8 +115,12 @@ void polynomial::append(int coe, int exp) {
 }
 
 
-void polynomial::add(int coe, int exp) {
-	if (coe == 0) return;
+polynomial &polynomial::add(const char *str) {
+	return add(atoi(str), atoi(strchr(str, '^') + 1));
+}
+
+polynomial &polynomial::add(int coe, int exp) {
+	if (coe == 0) return *this;
 
 	unit *p = beg;
 	while (p->exp > exp)
@@ -129,6 +135,7 @@ void polynomial::add(int coe, int exp) {
 		insert(obj, p);
 		if (p == beg) beg = obj;
 	}
+	return *this;
 }
 
 polynomial polynomial::minus(const polynomial &p) const {
@@ -201,4 +208,5 @@ std::ostream &operator<<(std::ostream &out, const polynomial &px) {
 			if (p != px.beg) out << " + ";
 			out << p->coe << "x^" << p->exp;
 		}
+	return out;
 }
