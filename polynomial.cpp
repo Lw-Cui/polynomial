@@ -185,8 +185,9 @@ bool polynomial::islower(const polynomial &p) const {
 	return beg->exp < p.beg->exp;
 }
 
-polynomial polynomial::divide(const polynomial &p) const {
-	polynomial result, remainder = *this;
+void polynomial::div_and_mod(const polynomial &p, 
+		polynomial &result, polynomial &remainder) const {
+	remainder = *this;
 
 	while (!remainder.islower(p)) {
 		int coe = remainder.beg->coe / p.beg->coe;
@@ -199,6 +200,17 @@ polynomial polynomial::divide(const polynomial &p) const {
 
 		remainder = remainder.minus(ans.multiply(p));
 	}
+}
+
+polynomial polynomial::modulo(const polynomial &p) const {
+	polynomial result, remainder;
+	div_and_mod(p, result, remainder);
+	return remainder;
+}
+
+polynomial polynomial::divide(const polynomial &p) const {
+	polynomial result, remainder;
+	div_and_mod(p, result, remainder);
 	return result;
 }
 

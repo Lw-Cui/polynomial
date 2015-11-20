@@ -17,6 +17,7 @@ public:
 	inline polynomial operator-(const polynomial &p) const { return minus(p); }
 	inline polynomial operator*(const polynomial &p) const { return multiply(p); }
 	inline polynomial operator/(const polynomial &p) const { return divide(p); }
+	inline polynomial operator%(const polynomial &p) const { return modulo(p); }
 	inline polynomial operator-()const { return negative(); }
 
 	polynomial &add(int, int);
@@ -27,8 +28,10 @@ private:
 	polynomial minus(const polynomial &) const;
 	polynomial multiply(const polynomial &)const;
 	polynomial divide(const polynomial &)const;
+	polynomial modulo(const polynomial &)const;
 	polynomial negative() const;
 
+	void div_and_mod(const polynomial &, polynomial &, polynomial &) const;
 	unit *insert(unit *, unit *);
 	void del(unit *);
 	void append(int, int);

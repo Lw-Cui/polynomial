@@ -22,6 +22,7 @@ void test3() {
 	p2.add("5x^1");
 	
 	cout << p1 / p2 << endl;
+	cout << p1 % p2 << endl;
 }
 
 void test4() {
@@ -35,6 +36,5 @@ void test4() {
 
 int main(int args, char **agrv) { 
 	test3();
-	test4();
 	return 0;
 }
