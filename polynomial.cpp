@@ -113,7 +113,7 @@ void polynomial::append(int coe, int exp) {
 }
 
 
-void polynomial::insert(int coe, int exp) {
+void polynomial::add(int coe, int exp) {
 	if (coe == 0) return;
 
 	unit *p = beg;
@@ -169,7 +169,7 @@ polynomial polynomial::multiply(const polynomial &p) const {
 	for (unit *p1 = beg; p1 != NULL; p1 = p1->next)
 		for (unit *p2 = p.beg; p2 != NULL; p2 = p2->next)
 			if (p1->exp != -INF && p2->exp != -INF)
-				ans.insert(p1->coe * p2->coe, p1->exp + p2->exp);
+				ans.add(p1->coe * p2->coe, p1->exp + p2->exp);
 
 	return ans;
 }

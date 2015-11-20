@@ -19,7 +19,7 @@ public:
 	inline polynomial operator/(const polynomial &p) const { return divide(p); }
 	inline polynomial operator-()const { return negative(); }
 
-	void insert(int, int);
+	void add(int, int);
 
 private:
 	polynomial add(const polynomial &) const;
