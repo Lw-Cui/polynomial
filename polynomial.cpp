@@ -62,7 +62,6 @@ unit *polynomial::insert(unit *obj, unit *dist) {
 	return obj;
 }
 
-//TO DO: deal with memory leak
 void polynomial::del(unit *p) {
 	if (beg == p) {
 		beg = p->next;
@@ -71,6 +70,10 @@ void polynomial::del(unit *p) {
 		p->next->last = p->last;
 		p->last->next = p->next;
 	}
+
+	p->next = spare;
+	if (spare != NULL)
+		spare->last = p;
 }
 
 unit *polynomial::newspace() {

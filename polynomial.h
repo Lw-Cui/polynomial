@@ -1,6 +1,5 @@
 #ifndef _POLYNOMIAL_H_
 #define _POLYNOMIAL_H_
-//TO DO: COPY CONSTRUCTOR
 #include <iostream>
 
 class unit;

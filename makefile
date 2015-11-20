@@ -17,4 +17,6 @@ $(OBJ): %.o: %.cpp $(HEAD)
 clean:
 	rm $(OBJ) $(TARGET)
 
-.PHONY: all clean
+rebuild: clean all
+
+.PHONY: all clean rebuild
