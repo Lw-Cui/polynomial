@@ -20,7 +20,7 @@ public:
 	inline polynomial operator%(const polynomial &p) const { return modulo(p); }
 	inline polynomial operator-()const { return negative(); }
 
-	polynomial &add(int, int);
+	polynomial &add(double,double);
 	polynomial &add(const char *);
 
 private:
@@ -34,8 +34,8 @@ private:
 	void div_and_mod(const polynomial &, polynomial &, polynomial &) const;
 	unit *insert(unit *, unit *);
 	void del(unit *);
-	void append(int, int);
-	unit *getunit(int, int);
+	void append(double,double);
+	unit *getunit(double,double);
 	unit *newspace();
 	void destory(unit *);
 	bool islower(const polynomial &) const;
@@ -50,12 +50,12 @@ friend class polynomial;
 friend std::ostream &operator<<(std::ostream &, const polynomial &);
 
 private:
-	unit(int base = 0, int exp = 1,
+	unit(double base = 0,double exp = 1,
 		 unit *n = NULL, unit *l = NULL);
 
 	unit *next, *last;
-	int exp;
-	int coe;
+	double exp;
+	double coe;
 };
 
 #endif

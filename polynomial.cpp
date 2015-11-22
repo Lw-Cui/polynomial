@@ -7,7 +7,7 @@
 #define INF (1 << 20)
 #define MAX 30
 
-unit::unit(int coe, int exp, unit *n, unit *l)
+unit::unit(double coe,double exp, unit *n, unit *l)
 	:coe(coe), exp(exp), next(n), last(l) {
 
 }
@@ -87,7 +87,7 @@ unit *polynomial::newspace() {
 	return p;
 }
 
-unit *polynomial::getunit(int coe, int exp) {
+unit *polynomial::getunit(double coe,double exp) {
 	if (spare == NULL)
 		spare = newspace();
 
@@ -100,7 +100,7 @@ unit *polynomial::getunit(int coe, int exp) {
 	return p;
 }
 
-void polynomial::append(int coe, int exp) {
+void polynomial::append(double coe,double exp) {
 	if (coe == 0) return;
 
 	if (end->last && end->last->exp == exp) {
@@ -119,7 +119,7 @@ polynomial &polynomial::add(const char *str) {
 	return add(atoi(str), atoi(strchr(str, '^') + 1));
 }
 
-polynomial &polynomial::add(int coe, int exp) {
+polynomial &polynomial::add(double coe,double exp) {
 	if (coe == 0) return *this;
 
 	unit *p = beg;
@@ -190,8 +190,8 @@ void polynomial::div_and_mod(const polynomial &p,
 	remainder = *this;
 
 	while (!remainder.islower(p)) {
-		int coe = remainder.beg->coe / p.beg->coe;
-		int exp = remainder.beg->exp - p.beg->exp;
+		double coe = remainder.beg->coe / p.beg->coe;
+		double exp = remainder.beg->exp - p.beg->exp;
 		if (coe == 0) break;
 
 		polynomial ans;
